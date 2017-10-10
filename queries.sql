@@ -11,3 +11,8 @@ SELECT COUNT(DISTINCT d.id)
 FROM Director AS d, MovieDirector AS md
 WHERE d.id = md.did
 HAVING (COUNT(d.id) >= 4);
+
+-- Custom query # 1: Total tickets sold and  Income of all movies starring Hugh Jackman
+SELECT SUM(s.ticketsSold), SUM(s.totalIncome)
+FROM Actor AS a, MovieActor AS ma, Sales AS s
+WHERE a.first='Hugh' AND a.last='Jackman' AND a.id = ma.aid AND ma.mid = s.mid;
