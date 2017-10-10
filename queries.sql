@@ -6,7 +6,7 @@ WHERE m.title='Death to Smoochy'
 AND ma.aid = a.id
 AND ma.mid = m.id;
 
--- Find the number of directors who have directed atleast 4 movies.
+-- Find the number of directors who have directed at least 4 movies.
 SELECT COUNT(DISTINCT d.id)
 FROM Director AS d, MovieDirector AS md
 WHERE d.id = md.did
