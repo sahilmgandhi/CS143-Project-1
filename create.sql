@@ -38,10 +38,6 @@ CREATE TABLE MaxPersonID(
 	id int
 );
 
-INSERT INTO MaxPersonID VALUES(69000);
-
 CREATE TABLE MaxMovieID(
 	id int
 );
-
-INSERT INTO MaxMovieID VALUES(4750);
