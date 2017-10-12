@@ -21,10 +21,10 @@ WHERE a.first='Hugh' AND a.last='Jackman' AND a.id = ma.aid AND ma.mid = s.mid;
 
 -- Custom query #2: Find director that has worked with the most actors
 SELECT CONCAT(d.first, ' ', d.last)
-FROM MovieActor ma
-JOIN MovieDirector md
+FROM MovieActor AS ma
+JOIN MovieDirector AS md
 ON ma.mid = md.mid
-JOIN Director d
+JOIN Director AS d
 ON md.did = d.id
 GROUP BY ma.aid
 ORDER BY COUNT(ma.aid) DESC
