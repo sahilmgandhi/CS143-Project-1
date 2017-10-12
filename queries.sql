@@ -7,10 +7,12 @@ AND ma.aid = a.id
 AND ma.mid = m.id;
 
 -- Find the number of directors who have directed at least 4 movies.
-SELECT COUNT(DISTINCT d.id)
-FROM Director AS d, MovieDirector AS md
-WHERE d.id = md.did
-HAVING (COUNT(d.id) >= 4);
+SELECT COUNT(*) FROM(
+	SELECT COUNT(*)
+	FROM MovieDirector AS md
+	GROUP BY md.did
+	HAVING (COUNT(md.did) >= 4)
+) AS temp;
 
 -- Custom query # 1: Total tickets sold and  Income of all movies starring Hugh Jackman
 SELECT SUM(s.ticketsSold), SUM(s.totalIncome)
