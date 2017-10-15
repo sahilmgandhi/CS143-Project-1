@@ -6,7 +6,6 @@ CREATE TABLE Movie(
 	company VARCHAR(50),
 	PRIMARY KEY(id),	-- ID is a primary way to identify a movie
 	INDEX(title),
-	UNIQUE(id),			-- Each movie should have a unique ID
 	CHECK(year > 1878) 	-- Year the first movie was made
 ) ENGINE = INNODB;
 
@@ -19,8 +18,8 @@ CREATE TABLE Actor(
 	dod 	DATE,
 	PRIMARY KEY(id),		-- ID is a primary way to identify an actor
 	INDEX(first, last),
-	UNIQUE(id),				-- Each actor should have a unique ID
-	CHECK(dob <= CURDATE())	-- Can't have people born in the future
+	CHECK(dob <= CURDATE()),-- Can't have people born in the future
+	CHECK(dod IS NULL OR dob <= dod) -- Can't die before you were born
 ) ENGINE = INNODB;
 
 CREATE TABLE Sales(
@@ -40,7 +39,8 @@ CREATE TABLE Director(
 	PRIMARY KEY(id),		-- ID is a primary way to identify a director
 	INDEX(first, last),
 	UNIQUE(id),				-- Each director should have a unique ID
-	CHECK(dob <= CURDATE())	-- Can't have people born in the future
+	CHECK(dob <= CURDATE()),-- Can't have people born in the future
+	CHECK(dod IS NULL OR dob <= dod) -- Can't die before you were born
 ) ENGINE = INNODB;
 
 CREATE TABLE MovieGenre(
@@ -66,9 +66,11 @@ CREATE TABLE MovieActor(
 
 CREATE TABLE MovieRating(
 	mid 	INT UNSIGNED NOT NULL,	-- ID's should not be negative, and should exist
-	imdb 	INT,
-	rot 	INT,
+	imdb 	INT UNSIGNED,
+	rot 	INT UNSIGNED,
 	UNIQUE(mid), -- A movie shouldn't be able to have 2 rating definitions
+	CHECK(imdb >= 0 AND imdb <= 100), -- rating is between 0 and 100
+	CHECK(rot >= 0 AND rot <= 100), -- rating is between 0 and 100
 	FOREIGN KEY(mid) REFERENCES Movie(id) ON DELETE CASCADE ON UPDATE CASCADE -- The mid should correspond to some movie's ID. If the movie is deleted or updated, cascade the update/deletion
 ) ENGINE = INNODB;
 
@@ -76,8 +78,9 @@ CREATE TABLE Review(
 	name 	VARCHAR(20),
 	`time` 	TIMESTAMP, 				-- Quote the column name time since it is reserved in MySQL
 	mid 	INT UNSIGNED NOT NULL,	-- ID's should not be negative, and should exist
-	rating 	INT,
+	rating 	INT UNSIGNED,
 	comment VARCHAR(500),
+	CHECK(rating >= 0 AND rating <= 5), -- rating is between 0 and 5
 	FOREIGN KEY(mid) REFERENCES Movie(id) ON DELETE CASCADE ON UPDATE CASCADE -- The mid should correspond to some movie's ID. If the movie is deleted or updated, cascade the update/deletion
 ) ENGINE = INNODB;
 
