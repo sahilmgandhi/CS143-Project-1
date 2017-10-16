@@ -14,7 +14,7 @@ SELECT COUNT(*) FROM(
 	HAVING (COUNT(md.did) >= 4)
 ) AS temp;
 
--- Custom query # 1: Total tickets sold and  Income of all movies starring Hugh Jackman
+-- Custom query # 1: Total tickets sold and income of all movies starring Hugh Jackman
 SELECT SUM(s.ticketsSold), SUM(s.totalIncome)
 FROM Actor AS a, MovieActor AS ma, Sales AS s
 WHERE a.first='Hugh' AND a.last='Jackman' AND a.id = ma.aid AND ma.mid = s.mid;
@@ -23,9 +23,9 @@ WHERE a.first='Hugh' AND a.last='Jackman' AND a.id = ma.aid AND ma.mid = s.mid;
 SELECT CONCAT(d.first, ' ', d.last)
 FROM MovieActor AS ma
 JOIN MovieDirector AS md
-ON ma.mid = md.mid
+    ON ma.mid = md.mid
 JOIN Director AS d
-ON md.did = d.id
+    ON md.did = d.id
 GROUP BY ma.aid
 ORDER BY COUNT(ma.aid) DESC
 LIMIT 1;

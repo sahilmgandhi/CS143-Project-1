@@ -38,7 +38,6 @@ CREATE TABLE Director(
 	dod 	DATE,
 	PRIMARY KEY(id),		-- ID is a primary way to identify a director
 	INDEX(first, last),
-	UNIQUE(id),				-- Each director should have a unique ID
 	CHECK(dob <= CURDATE()),-- Can't have people born in the future
 	CHECK(dod IS NULL OR dob <= dod) -- Can't die before you were born
 ) ENGINE = INNODB;
