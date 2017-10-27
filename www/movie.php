@@ -13,11 +13,36 @@ if (!$db_selected) {
     print "Unable to select the database specified. Exiting program.";
     exit(1);
 }
+
 $id = (int) $_GET["id"];
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $id = (int) $_POST["id"]; // We sent the id as a POST parameter in this case
+    if (!empty($_POST["newActor"])) {
+        $role = $_POST["role"];
+        $first = split(" ", $_POST["name"])[0];
+        $last = split(" ", $_POST["name"])[1];
+        $query = "INSERT INTO MovieActor SELECT $id, a.id, '$role' FROM Actor AS a WHERE a.first='$first' AND a.last='$last'";
+        $newActorRs = mysql_query($query, $db_connection);
+        // TODO: Check the result of new actor rs (invalid name?)
+    } else if (!empty($_POST["newDirector"])) {
+        $first = split(" ", $_POST["name"])[0];
+        $last = split(" ", $_POST["name"])[1];
+        $query = "INSERT INTO MovieDirector SELECT $id, d.id FROM Director AS d WHERE d.first='$first' AND d.last='$last'";
+        $newDirectorRs = mysql_query($query, $db_connection);
+    } else if (!empty($_POST["newReview"])) {
+        $name = $_POST["name"];
+        $rating = (int) $_POST["rating"];
+        $comment = $_POST["comment"];
+        $query = "INSERT INTO Review SELECT '$name', NOW(), $id, $rating, '$comment'";
+        echo $query;
+        $reviewRs = mysql_query($query, $db_connection);
+        // todo check if result of reviewrs is valid
+    }
+}
+
+
 $moviequery = "SELECT * FROM Movie WHERE id={$id}";
-$sanitized_name = mysql_real_escape_string($name, $db_connection);
-$sanitized_query = sprintf($moviequery, $sanitized_name);
-$rs = mysql_query($sanitized_query, $db_connection);
+$rs = mysql_query($moviequery, $db_connection);
 $row = mysql_fetch_row($rs);
 $title = $row[1];
 $year = $row[2];
@@ -77,44 +102,76 @@ echo $genreHtml;
 echo "Directed by: ";
 $directorsHtml = "";
 while ($row = mysql_fetch_row($directorrs)) {
-    $id = $row[1];
+    $did = $row[1];
     $name = $row[4].' '.$row[3];
-    $directorsHtml .= "<a href=person.php?person_type=Director&id={$id}>{$name}</a> ";
+    $directorsHtml .= "<a href=person.php?person_type=Director&id={$did}>{$name}</a> ";
 }
 if (empty($directorsHtml)) {
     $directorsHtml = "<i>Unknown</i> "; // Keep this space at the end to be trimmed off
 }
 echo substr($directorsHtml, 0, -1);
+echo "<br>";
+?>
 
+<h4>Add New Director</h4>
+<form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+    <input type="text" id="name" name="name" placeholder="Director Full Name" size="20">
+    <input type="hidden" name="id" value="<?php echo $id; ?>" />
+    <input type="submit" id="newDirector" name="newDirector"> <br> <br>
+</form>
+
+<?php
 echo "<br><br>";
 ////////// Actors
 $actorsHtml = "";
+echo "<table border=1 cellspacing=1 cellpadding=2>\n";
+echo "<tr align=center>";
 while ($row = mysql_fetch_row($actorrs)) {
     $aid = $row[1];
     $aname = $row[5].' '.$row[4];
     $role = $row[2];
     // TODO: make this a table instead
-    $actorsHtml .= "<a href=person.php?person_type=Actor&id={$aid}>{$aname}</a>\t";
-    $actorsHtml .= "— {$role}<br>";
+    $actorsHtml .= "<tr><td><a href=person.php?person_type=Actor&id={$aid}>{$aname}</a></td>\t";
+    $actorsHtml .= "<td>{$role}</td></tr>";
 
 }
 if (empty($actorsHtml)) {
     $actorsHtml = "<i>No known actors for this movie</i>";
+} else {
+    $actorsHtml = "<th>Actor</th><th>Role</th>". $actorsHtml;
 }
 echo $actorsHtml;
+echo "</table><br>";
+?>
+<h4>Add New Actor</h4>
+<form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+    <input type="text" id="name" name="name" placeholder="Actor Full Name" size="20">
+    <input type="text" id="role" name="role" placeholder="Actor Role" size="50">
+    <input type="hidden" name="id" value="<?php echo $id; ?>" />
+    <input type="submit" id="newActor" name="newActor"> <br> <br>
+</form>
 
+<?php
+echo "<h2>Reviews</h2>";
+$reviewsHtml = "";
+while ($row = mysql_fetch_row($reviewsrs)) {
+    $name = $row[0];
+    $time = $row[1];
+    $rating = $row[3];
+    $comment = $row[4];
 
+    $reviewsHtml .= "<b>{$name}</b> — <i>{$rating}/5 Stars<br>Posted at {$time}</i><br>{$comment}<br><br>";
+}
 
+if (empty($reviewsHtml)) {
+    $reviewsHtml = "<i>No reviews yet!</i>";
+}
 
-
-
-
+echo $reviewsHtml;
 
 ?>
 
-<!--TODO: Show list of directors-->
 <!--TODO: Have a field on this page itself to be able to add directors to this movie-->
-<!--TODO: Show list of actors-->
 <!--TODO: Have a field on this page itself to be able to add actors to this movie-->
 
 
@@ -131,7 +188,8 @@ echo $actorsHtml;
         <option value="5">5</option>
     </select> <br>
     <input type="text" id="comment" name="comment" placeholder="Comment" size="100"> <br> <br>
-    <input type="submit" value="Add Comment">
+    <input type="hidden" name="id" value="<?php echo $id; ?>" />
+    <input type="submit" id="newReview" name="newReview"> <br> <br>
 </form>
 
 </body>
