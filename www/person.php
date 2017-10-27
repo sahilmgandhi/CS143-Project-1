@@ -21,6 +21,9 @@
     $rs = mysql_query($sanitized_query, $db_connection);
     $actorrow = mysql_fetch_row($rs);
     $name = $actorrow[2].' '.$actorrow[1];
+    $sex = $actorrow[3];
+    $dob = $actorrow[4];
+    $dod = $actorrow[5];
     mysql_free_result($rs);
     // TODO: Check the result of $rs (invalid id or something)
 
@@ -29,16 +32,43 @@
     $sanitized_name = mysql_real_escape_string($name, $db_connection);
     $sanitized_query = sprintf($query, $sanitized_name);
     $moviers = mysql_query($sanitized_query, $db_connection);
-    $movierow = mysql_fetch_row($moviers);
+
     // Free the result and close the connection to the database
-    mysql_free_result($moviers);
     mysql_close($db_connection);
 ?>
 <title> <?php echo $name ?> - LMDb </title>
 <body style="background-color:#CEDBED;">
 <h1> <?php echo $name ?> </h1>
+<?php
+echo "<h3>$sex</h3>";
+if (!empty($dob)) {
+    echo "Born on $dob\t";
+}
+if (!empty($dod)) {
+    echo "Died on $dod<br>";
+}
+?>
 <!--TODO: show actual info from movie result-->
-<?php var_dump($movierow); ?>
+<?php
+$movieHtml = "";
+while ($row = mysql_fetch_row($moviers)) {
+    $mid = $row[0];
+    $role = $row[2];
+    $title = $row[4];
+    // TODO: make this a table instead
+    $movieHtml .= "<tr><td><a href=movie.php?id={$mid}>{$title}</a></td>\t";
+    $movieHtml .= "<td>{$role}</td></tr>";
+
+}
+if (empty($movieHtml)) {
+    $movieHtml = "<i>$name has not been in any movies yet</i>";
+} else {
+    $movieHtml = "<table border=1 cellspacing=1 cellpadding=2>\n" . "<tr align=center>". "<th>Movie</th><th>Role</th>". $movieHtml;
+}
+echo $movieHtml;
+echo "</table><br>";
+
+?>
 
 </body>
 </html>

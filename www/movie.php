@@ -82,7 +82,7 @@ mysql_close($db_connection);
 ?>
 <title> <?php echo $title ?> - LMDb </title>
 <body style="background-color:#CEDBED;">
-<h1> <?php echo $title ?> </h1> <br>
+<h1> <?php echo "$title ($year)" ?> </h1> <br>
 <?php echo $reviewstring ?> <br>
 <!--TODO: show actual info from movie + actor + director + genre results -->
 <?php
@@ -98,6 +98,14 @@ echo $genreHtml;
 ?>
 <br>
 <?php
+if (!empty($rating)) {
+    echo "Rated $rating <br>";
+}
+//// Producer
+if (!empty($company)) {
+    echo "Produced by: $company <br>";
+}
+
 ////////// Director
 echo "Directed by: ";
 $directorsHtml = "";
