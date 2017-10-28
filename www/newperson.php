@@ -2,6 +2,10 @@
 <html>
 <title> Create Person - LMDb </title>
 <body style="background-color:#CEDBED;">
+<form method="GET" action="search.php">
+    <input type="text" id="search" name="search" placeholder="Search" size="100" value="<?php echo $_GET["search"] ?>"/>
+    <input type="submit" id="submit" name="submit" value="Search">
+</form>
 <h1> Create Person </h1>
 
 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">

@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET["search"])) {
     }
     $moviequery = substr($moviequery, 0, -5);
     $moviers = mysql_query($moviequery, $db_connection);
-    
+
     $actorsHtml = "";
     while ($row = mysql_fetch_row($actorrs)) {
         $aid = $row[0];

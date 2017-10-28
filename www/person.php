@@ -38,6 +38,10 @@
 ?>
 <title> <?php echo $name ?> - LMDb </title>
 <body style="background-color:#CEDBED;">
+<form method="GET" action="search.php">
+    <input type="text" id="search" name="search" placeholder="Search" size="100" value="<?php echo $_GET["search"] ?>"/>
+    <input type="submit" id="submit" name="submit" value="Search">
+</form>
 <h1> <?php echo $name ?> </h1>
 <?php
 echo "<h3>Sex: $sex</h3>";
