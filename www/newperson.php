@@ -7,10 +7,12 @@
 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
     <input type="radio" id="actor" name="persontype" value="actor"> <label for="actor">Actor</label>
     <input type="radio" id="director" name="persontype" value="director"> <label for="director">Director</label><br> <br>
-    <input type="text" id="first" name="first" placeholder="First Name" size="20"> <br> <br>
-    <input type="text" id="last" name="last" placeholder="Last Name" size="20"> <br> <br>
-    <input type="date" id="dob" name="dob" placeholder="Birthday" size="20"> <br> <br>
-    <input type="date" id="dod" name="dod" placeholder="Deathday" size="20"> <br> <br>
+    <input type="text" id="first" name="first" placeholder="First Name" size="20" value="<?php echo isset($_POST['first']) ? $_POST['first'] : '' ?>"> <br> <br>
+    <input type="text" id="last" name="last" placeholder="Last Name" size="20" value="<?php echo isset($_POST['last']) ? $_POST['last'] : '' ?>"> <br> <br>
+
+    If using Firefox, please use the format (yyyy-mm-dd) for dates: <br>
+    <input type="date" id="dob" name="dob" placeholder="Birthday" size="20" value="<?php echo isset($_POST['dob']) ? $_POST['dob'] : '' ?>"> <br> <br>
+    <input type="date" id="dod" name="dod" placeholder="Deathday" size="20" value="<?php echo isset($_POST['dod']) ? $_POST['dod'] : '' ?>"> <br> <br>
     <input type="radio" id="male" name="sex" value="male"> <label for="male">Male</label>
     <input type="radio" id="female" name="sex" value="female"> <label for="female">Female</label> <br> <br>
     <input type="submit" value="Submit">
@@ -24,17 +26,11 @@ function validationErrors() {
     $first = $_POST["first"];
     $sex = $_POST["sex"];
     $dob = $_POST["dob"];
-    $dod = $_POST["dod"];
-    return (empty($last) || empty($first) || empty($dob) || empty($dod) || empty($tablename) || ($tablename == "actor" && empty($sex)));
-}
-
-function fillOutFields() {
-    // TODO: Fill out fields with previously submitted values
+    return (empty($last) || empty($first) || empty($dob) || empty($tablename) || ($tablename == "actor" && empty($sex)));
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (validationErrors()) {
-        fillOutFields();
         print "Please fill out all fields";
         exit(1);
     }
