@@ -88,7 +88,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // TODO: Check the result of $rs
 
-
     // Free the result and close the connection to the database
     mysql_free_result($rs);
     mysql_close($db_connection);

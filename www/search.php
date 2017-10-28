@@ -80,10 +80,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET["search"])) {
         echo "</table><br>";
     }
 
-
-
-    // TODO: Show results
-
     // Free the result and close the connection to the database
     mysql_free_result($rs);
     mysql_close($db_connection);

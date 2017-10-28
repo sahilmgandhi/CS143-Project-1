@@ -26,7 +26,6 @@
     $dod = $actorrow[5];
     // TODO: Check the result of $rs (invalid id or something)
 
-
     $query = "SELECT * FROM MovieActor AS ma, Movie AS m WHERE ma.aid={$id} AND m.id=ma.mid";
     $sanitized_name = mysql_real_escape_string($name, $db_connection);
     $sanitized_query = sprintf($query, $sanitized_name);

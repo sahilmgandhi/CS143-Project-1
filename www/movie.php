@@ -77,6 +77,18 @@ if (is_null($reviewavg)) {
     $reviewstring = "Users gave this movie an average score of {$reviewavg}/5";
 }
 
+$salesQuery = "SELECT * FROM Sales WHERE mid={$id}";
+$sales = mysql_query($salesQuery, $db_connection);
+$thisSale = FALSE;
+if ($sales != FALSE)
+    $thisSale = mysql_fetch_row($sales);
+
+$ratingQuery = "SELECT * FROM MovieRating WHERE mid={$id}";
+$ratings = mysql_query($ratingQuery, $db_connection);
+$thisRating = FALSE;
+if ($ratings != FALSE)
+    $thisRating = mysql_fetch_row($ratings);
+
 // Free the result and close the connection to the database
 mysql_close($db_connection);
 ?>
@@ -88,7 +100,7 @@ mysql_close($db_connection);
 </form>
 <h1> <?php echo "$title ($year)" ?> </h1> <br>
 <?php echo $reviewstring ?> <br>
-<!--TODO: show actual info from movie + actor + director + genre results -->
+
 <?php
 echo "Genres: ";
 $genreHtml = "";
@@ -123,6 +135,35 @@ if (empty($directorsHtml)) {
 }
 echo substr($directorsHtml, 0, -1);
 echo "<br>";
+
+////// Sales Information
+$ticketsSold = 0;
+$totalIncome = 0;
+if ($thisSale != FALSE){
+    $ticketsSold = $thisSale[1];
+    $totalIncome = $thisSale[2];    
+}
+echo "Total tickets sold: $ticketsSold <br>";
+echo "Total income: $totalIncome <br>";
+
+////// Rotten/IMDB Information
+
+$imdbRating = NULL;
+$rotRating = NULL;
+if ($thisRating != FALSE){
+    $imdbRating = $thisRating[1];
+    $rotRating = $thisRating[2];
+}
+
+if (is_null($imdbRating))
+    echo "The IMDB Rating currently does not exist <br>";
+else
+    echo "The IMDB Rating is: $imdbRating <br>";
+if (is_null($rotRating))
+    echo "The Rotten Tomatoes Rating currently does not exist <br>";
+else
+    echo "The Rotten Tomatoes Rating is: $rotRating <br>";
+
 ?>
 
 <h4>Add New Director</h4>
@@ -142,7 +183,6 @@ while ($row = mysql_fetch_row($actorrs)) {
     $aid = $row[1];
     $aname = $row[5].' '.$row[4];
     $role = $row[2];
-    // TODO: make this a table instead
     $actorsHtml .= "<tr><td><a href=person.php?person_type=Actor&id={$aid}>{$aname}</a></td>\t";
     $actorsHtml .= "<td>{$role}</td></tr>";
 
@@ -182,12 +222,6 @@ if (empty($reviewsHtml)) {
 echo $reviewsHtml;
 
 ?>
-
-<!--TODO: Have a field on this page itself to be able to add directors to this movie-->
-<!--TODO: Have a field on this page itself to be able to add actors to this movie-->
-
-
-<!--TODO: Show all other comments for this movie-->
 
 <br> <br>
 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
