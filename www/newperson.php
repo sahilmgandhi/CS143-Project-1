@@ -29,9 +29,23 @@ function validationErrors() {
     return (empty($last) || empty($first) || empty($dob) || empty($tablename) || ($tablename == "actor" && empty($sex)));
 }
 
+function validateDate($date)
+{
+    $d = DateTime::createFromFormat('Y-m-d', $date);
+    return $d && $d->format('Y-m-d') === $date;
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (validationErrors()) {
         print "Please fill out all fields";
+        exit(1);
+    }
+    if (!validateDate($_POST['dob'])){
+        print "Please input the date of birth correctly";
+        exit(1);
+    }
+    if (!empty($_POST['dod']) && !validateDate($_POST['dod']) || $_POST['dod'] == 0){
+        print "Please input the date of death correctly, or leave it blank if the person is still alive";
         exit(1);
     }
     $db_connection = mysql_connect("localhost", "cs143", "");
@@ -69,13 +83,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $rs = mysql_query($sanitized_query, $db_connection);
 
     // TODO: Check the result of $rs
+
+
     // Free the result and close the connection to the database
     mysql_free_result($rs);
     mysql_close($db_connection);
     header( "Location: person.php?person_type={$tablename}&id={$id}"); // Redirect to display page
 
-
-    // TODO: Redirect to person.php with person id as the parameter, and, with actor or director also as a param
 }
 ?>
 
