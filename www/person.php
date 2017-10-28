@@ -44,12 +44,15 @@
 </form>
 <h1> <?php echo $name ?> </h1>
 <?php
-echo "<h3>$sex</h3>";
+echo "<h3>Sex: $sex</h3>";
 if (!empty($dob)) {
     echo "Born on $dob\t";
 }
-if (!empty($dod)) {
+if (!empty($dod) && $dod != '0000-00-00') {
     echo "Died on $dod<br>";
+}
+else{
+    echo "Currently still alive! <br>";
 }
 ?>
 
@@ -59,7 +62,7 @@ while ($row = mysql_fetch_row($moviers)) {
     $mid = $row[0];
     $role = $row[2];
     $title = $row[4];
-    
+
     $movieHtml .= "<tr><td><a href=movie.php?id={$mid}>{$title}</a></td>\t";
     $movieHtml .= "<td>{$role}</td></tr>";
 

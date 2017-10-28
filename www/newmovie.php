@@ -106,7 +106,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sanitized_query = sprintf($query, $sanitized_name);
     $rs = mysql_query($sanitized_query, $db_connection);
 
-    // TODO: add the optional things as well!
     $imdbRating = $_POST['imdb'];
     $rotRating = $_POST['rotten'];
 
