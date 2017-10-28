@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET["search"])) {
     $actorsHtml = "";
     while ($row = mysql_fetch_row($actorrs)) {
         $aid = $row[0];
-        $aname = $row[2].' '.$row[1];
+        $aname = $row[2] . ' ' . $row[1];
         $actorsHtml .= "<tr><td><a href=person.php?person_type=Actor&id={$aid}>{$aname}</a></td>\t";
 
     }
@@ -57,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET["search"])) {
     } else {
         echo "<table border=1 cellspacing=1 cellpadding=2>\n";
         echo "<tr align=center>";
-        $actorsHtml = "<th>Actor</th>". $actorsHtml;
+        $actorsHtml = "<th>Actor</th>" . $actorsHtml;
         echo $actorsHtml;
         echo "</table><br>";
     }
@@ -75,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET["search"])) {
     } else {
         echo "<table border=1 cellspacing=1 cellpadding=2>\n";
         echo "<tr align=center>";
-        $movieHtml = "<th>Movie</th>". $movieHtml;
+        $movieHtml = "<th>Movie</th>" . $movieHtml;
         echo $movieHtml;
         echo "</table><br>";
     }

@@ -10,13 +10,18 @@
 
 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
     <input type="radio" id="actor" name="persontype" value="actor"> <label for="actor">Actor</label>
-    <input type="radio" id="director" name="persontype" value="director"> <label for="director">Director</label><br> <br>
-    <input type="text" id="first" name="first" placeholder="First Name" size="20" value="<?php echo isset($_POST['first']) ? $_POST['first'] : '' ?>"> <br> <br>
-    <input type="text" id="last" name="last" placeholder="Last Name" size="20" value="<?php echo isset($_POST['last']) ? $_POST['last'] : '' ?>"> <br> <br>
+    <input type="radio" id="director" name="persontype" value="director"> <label for="director">Director</label><br>
+    <br>
+    <input type="text" id="first" name="first" placeholder="First Name" size="20"
+           value="<?php echo isset($_POST['first']) ? $_POST['first'] : '' ?>"> <br> <br>
+    <input type="text" id="last" name="last" placeholder="Last Name" size="20"
+           value="<?php echo isset($_POST['last']) ? $_POST['last'] : '' ?>"> <br> <br>
 
     If using Firefox, please use the format (yyyy-mm-dd) for dates: <br>
-    <input type="date" id="dob" name="dob" placeholder="Birthday" size="20" value="<?php echo isset($_POST['dob']) ? $_POST['dob'] : '' ?>"> <br> <br>
-    <input type="date" id="dod" name="dod" placeholder="Deathday" size="20" value="<?php echo isset($_POST['dod']) ? $_POST['dod'] : '' ?>"> <br> <br>
+    <input type="date" id="dob" name="dob" placeholder="Birthday" size="20"
+           value="<?php echo isset($_POST['dob']) ? $_POST['dob'] : '' ?>"> <br> <br>
+    <input type="date" id="dod" name="dod" placeholder="Deathday" size="20"
+           value="<?php echo isset($_POST['dod']) ? $_POST['dod'] : '' ?>"> <br> <br>
     <input type="radio" id="male" name="sex" value="male"> <label for="male">Male</label>
     <input type="radio" id="female" name="sex" value="female"> <label for="female">Female</label> <br> <br>
     <input type="submit" value="Submit">
@@ -24,7 +29,8 @@
 
 <?php
 
-function validationErrors() {
+function validationErrors()
+{
     $tablename = $_POST["persontype"];
     $last = $_POST["last"];
     $first = $_POST["first"];
@@ -44,11 +50,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         print "Please fill out all fields";
         exit(1);
     }
-    if (!validateDate($_POST['dob'])){
+    if (!validateDate($_POST['dob'])) {
         print "Please input the date of birth correctly";
         exit(1);
     }
-    if (!empty($_POST['dod']) && !validateDate($_POST['dod']) || $_POST['dod'] == 0){
+    if (!empty($_POST['dod']) && !validateDate($_POST['dod']) || $_POST['dod'] == 0) {
         print "Please input the date of death correctly, or leave it blank if the person is still alive";
         exit(1);
     }
@@ -68,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_update_query = mysql_real_escape_string("UPDATE MaxPersonID SET id=id+1", $db_connection);
     $id_rs = mysql_query($id_update_query, $db_connection);
     $id_query = mysql_query("SELECT id FROM MaxPersonID", $db_connection);
-    $id = (int) mysql_fetch_row($id_query)[0];
+    $id = (int)mysql_fetch_row($id_query)[0];
     $tablename = ucfirst($_POST["persontype"]); // Capitalize first letter of table name
     $last = $_POST["last"];
     $first = $_POST["first"];
@@ -91,7 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Free the result and close the connection to the database
     mysql_free_result($rs);
     mysql_close($db_connection);
-    header( "Location: person.php?person_type={$tablename}&id={$id}"); // Redirect to display page
+    header("Location: person.php?person_type={$tablename}&id={$id}"); // Redirect to display page
 
 }
 ?>

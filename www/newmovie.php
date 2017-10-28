@@ -133,7 +133,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     mysql_free_result($rs);
     mysql_close($db_connection);
-    header( "Location: movie.php?id={$id}"); // Redirect to display page
+    header("Location: movie.php?id={$id}"); // Redirect to display page
 }
 ?>
 

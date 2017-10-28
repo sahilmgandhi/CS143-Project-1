@@ -14,9 +14,9 @@ if (!$db_selected) {
     exit(1);
 }
 
-$id = (int) $_GET["id"];
+$id = (int)$_GET["id"];
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $id = (int) $_POST["id"]; // We sent the id as a POST parameter in this case
+    $id = (int)$_POST["id"]; // We sent the id as a POST parameter in this case
     if (!empty($_POST["newActor"])) {
         $role = $_POST["role"];
         $first = split(" ", $_POST["name"])[0];
@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $newDirectorRs = mysql_query($query, $db_connection);
     } else if (!empty($_POST["newReview"])) {
         $name = $_POST["name"];
-        $rating = (int) $_POST["rating"];
+        $rating = (int)$_POST["rating"];
         $comment = $_POST["comment"];
         $query = "INSERT INTO Review SELECT '$name', NOW(), $id, $rating, '$comment'";
         echo $query;
@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 $moviequery = "SELECT * FROM Movie WHERE id={$id}";
 $rs = mysql_query($moviequery, $db_connection);
 if (mysql_num_rows($rs) == 0) {
-    header( "Location: notfound.php"); // Redirect to display page
+    header("Location: notfound.php"); // Redirect to display page
     return;
 }
 $row = mysql_fetch_row($rs);
@@ -54,7 +54,6 @@ $rating = $row[3];
 $company = $row[4];
 mysql_free_result($rs);
 // TODO: Check the result of $rs (invalid id or something)
-
 
 
 $actorquery = "SELECT * FROM MovieActor AS ma, Actor AS a WHERE ma.mid={$id} AND a.id = ma.aid";
@@ -131,7 +130,7 @@ echo "Directed by: ";
 $directorsHtml = "";
 while ($row = mysql_fetch_row($directorrs)) {
     $did = $row[1];
-    $name = $row[4].' '.$row[3];
+    $name = $row[4] . ' ' . $row[3];
     $directorsHtml .= "<a href=person.php?person_type=Director&id={$did}>{$name}</a> ";
 }
 if (empty($directorsHtml)) {
@@ -143,9 +142,9 @@ echo "<br>";
 ////// Sales Information
 $ticketsSold = 0;
 $totalIncome = 0;
-if ($thisSale != FALSE){
+if ($thisSale != FALSE) {
     $ticketsSold = $thisSale[1];
-    $totalIncome = $thisSale[2];    
+    $totalIncome = $thisSale[2];
 }
 echo "Total tickets sold: $ticketsSold <br>";
 echo "Total income: $totalIncome <br>";
@@ -154,7 +153,7 @@ echo "Total income: $totalIncome <br>";
 
 $imdbRating = NULL;
 $rotRating = NULL;
-if ($thisRating != FALSE){
+if ($thisRating != FALSE) {
     $imdbRating = $thisRating[1];
     $rotRating = $thisRating[2];
 }
@@ -173,7 +172,7 @@ else
 <h4>Add New Director</h4>
 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
     <input type="text" id="name" name="name" placeholder="Director Full Name" size="20">
-    <input type="hidden" name="id" value="<?php echo $id; ?>" />
+    <input type="hidden" name="id" value="<?php echo $id; ?>"/>
     <input type="submit" id="newDirector" name="newDirector"> <br> <br>
 </form>
 
@@ -185,7 +184,7 @@ echo "<table border=1 cellspacing=1 cellpadding=2>\n";
 echo "<tr align=center>";
 while ($row = mysql_fetch_row($actorrs)) {
     $aid = $row[1];
-    $aname = $row[5].' '.$row[4];
+    $aname = $row[5] . ' ' . $row[4];
     $role = $row[2];
     $actorsHtml .= "<tr><td><a href=person.php?person_type=Actor&id={$aid}>{$aname}</a></td>\t";
     $actorsHtml .= "<td>{$role}</td></tr>";
@@ -194,7 +193,7 @@ while ($row = mysql_fetch_row($actorrs)) {
 if (empty($actorsHtml)) {
     $actorsHtml = "<i>No known actors for this movie</i>";
 } else {
-    $actorsHtml = "<th>Actor</th><th>Role</th>". $actorsHtml;
+    $actorsHtml = "<th>Actor</th><th>Role</th>" . $actorsHtml;
 }
 echo $actorsHtml;
 echo "</table><br>";
@@ -203,7 +202,7 @@ echo "</table><br>";
 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
     <input type="text" id="name" name="name" placeholder="Actor Full Name" size="20">
     <input type="text" id="role" name="role" placeholder="Actor Role" size="50">
-    <input type="hidden" name="id" value="<?php echo $id; ?>" />
+    <input type="hidden" name="id" value="<?php echo $id; ?>"/>
     <input type="submit" id="newActor" name="newActor"> <br> <br>
 </form>
 
@@ -239,7 +238,7 @@ echo $reviewsHtml;
         <option value="5">5</option>
     </select> <br>
     <input type="text" id="comment" name="comment" placeholder="Comment" size="100"> <br> <br>
-    <input type="hidden" name="id" value="<?php echo $id; ?>" />
+    <input type="hidden" name="id" value="<?php echo $id; ?>"/>
     <input type="submit" id="newReview" name="newReview"> <br> <br>
 </form>
 
