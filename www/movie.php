@@ -82,6 +82,10 @@ mysql_close($db_connection);
 ?>
 <title> <?php echo $title ?> - LMDb </title>
 <body style="background-color:#CEDBED;">
+<form method="GET" action="search.php">
+    <input type="text" id="search" name="search" placeholder="Search" size="100" value="<?php echo $_GET["search"] ?>"/>
+    <input type="submit" id="submit" name="submit" value="Search">
+</form>
 <h1> <?php echo "$title ($year)" ?> </h1> <br>
 <?php echo $reviewstring ?> <br>
 <!--TODO: show actual info from movie + actor + director + genre results -->
