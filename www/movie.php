@@ -43,6 +43,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 $moviequery = "SELECT * FROM Movie WHERE id={$id}";
 $rs = mysql_query($moviequery, $db_connection);
+if (mysql_num_rows($rs) == 0) {
+    header( "Location: notfound.php"); // Redirect to display page
+    return;
+}
 $row = mysql_fetch_row($rs);
 $title = $row[1];
 $year = $row[2];

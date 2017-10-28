@@ -19,11 +19,13 @@
     $sanitized_name = mysql_real_escape_string($name, $db_connection);
     $sanitized_query = sprintf($query, $sanitized_name);
     $rs = mysql_query($sanitized_query, $db_connection);
+    $didFindPerson = mysql_num_rows($rs) != 0;
     $actorrow = mysql_fetch_row($rs);
     $name = $actorrow[2].' '.$actorrow[1];
+    $hasSexField = $_GET["person_type"] == "Actor" ? 1 : 0;
     $sex = $actorrow[3];
-    $dob = $actorrow[4];
-    $dod = $actorrow[5];
+    $dob = $actorrow[3+$hasSexField];
+    $dod = $actorrow[4+$hasSexField];
     // TODO: Check the result of $rs (invalid id or something)
 
 
@@ -44,16 +46,14 @@
 </form>
 <h1> <?php echo $name ?> </h1>
 <?php
-echo "<h3>Sex: $sex</h3>";
-if (!empty($dob)) {
-    echo "Born on $dob\t";
+if (empty($id) || !$didFindPerson) {
+    header( "Location: notfound.php"); // Redirect to display page
 }
-if (!empty($dod) && $dod != '0000-00-00') {
-    echo "Died on $dod<br>";
+if ($_GET["person_type"] == "Actor") {
+    echo "<h3>Sex: $sex</h3>";
 }
-else{
-    echo "Currently still alive! <br>";
-}
+$death = empty($dod) || $dod == '0000-00-00' ? "<i>Present</i>" : $dod;
+echo "Alive from: $dob-$death<br>";
 ?>
 
 <?php
