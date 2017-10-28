@@ -24,7 +24,6 @@
     $sex = $actorrow[3];
     $dob = $actorrow[4];
     $dod = $actorrow[5];
-    mysql_free_result($rs);
     // TODO: Check the result of $rs (invalid id or something)
 
 
@@ -34,6 +33,7 @@
     $moviers = mysql_query($sanitized_query, $db_connection);
 
     // Free the result and close the connection to the database
+    mysql_free_result($rs);
     mysql_close($db_connection);
 ?>
 <title> <?php echo $name ?> - LMDb </title>
@@ -48,14 +48,14 @@ if (!empty($dod)) {
     echo "Died on $dod<br>";
 }
 ?>
-<!--TODO: show actual info from movie result-->
+
 <?php
 $movieHtml = "";
 while ($row = mysql_fetch_row($moviers)) {
     $mid = $row[0];
     $role = $row[2];
     $title = $row[4];
-    // TODO: make this a table instead
+    
     $movieHtml .= "<tr><td><a href=movie.php?id={$mid}>{$title}</a></td>\t";
     $movieHtml .= "<td>{$role}</td></tr>";
 

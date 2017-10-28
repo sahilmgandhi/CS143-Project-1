@@ -5,13 +5,46 @@
 <h1> Create Movie </h1>
 
 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-    <input type="text" id="title" name="title" placeholder="Movie Title" size="20"> <br> <br>
-    <input type="number" id="year" name="year" placeholder="Movie Year" size="4"> <br> <br>
-    <input type="text" id="rating" name="rating" placeholder="Movie Rating" size="10"> <br> <br>
-    <input type="text" id="company" name="company" placeholder="Production Company" size="50"> <br> <br>
-    <!--    TODO: Adding dynamic number of Genres!-->
-    <!--    TODO: Adding dynamic number of Actors!-->
-    <!--    TODO: Adding dynamic number of Directors!-->
+    (Required Fields): <br>
+    <input type="text" id="title" name="title" placeholder="Movie Title" size="20" value="<?php echo isset($_POST['title']) ? $_POST['title'] : '' ?>"> <br> <br>
+    <input type="number" id="year" name="year" placeholder="Movie Year" size="4" value="<?php echo isset($_POST['year']) ? $_POST['year'] : '' ?>"> <br> <br>
+    Movie rating: <select name="rating">
+        <option></option>
+        <option value="G">G</option>
+        <option value="PG">PG</option>
+        <option value="PG-13">PG-13</option>
+        <option value="R">R</option>
+        <option value="NC-17">NC-17</option>
+        <option value="NC-17">X</option>
+    </select> <br>
+    <input type="text" id="company" name="company" placeholder="Production Company" size="50" value="<?php echo isset($_POST['company']) ? $_POST['company'] : '' ?>"> <br> <br>
+    Genre: 
+    <input type="checkbox" name="genre[]" value="Action">Action
+    <input type="checkbox" name="genre[]" value="Adult">Adult
+    <input type="checkbox" name="genre[]" value="Adventure">Adventure
+    <input type="checkbox" name="genre[]" value="Comedy">Comedy  <br>
+    <input type="checkbox" name="genre[]" value="Crime">Crime
+    <input type="checkbox" name="genre[]" value="Documentary">Documentary
+    <input type="checkbox" name="genre[]" value="Drama">Drama
+    <input type="checkbox" name="genre[]" value="Family">Family  <br>
+    <input type="checkbox" name="genre[]" value="Horror">Horror
+    <input type="checkbox" name="genre[]" value="Musical">Musical
+    <input type="checkbox" name="genre[]" value="Mystery">Mystery
+    <input type="checkbox" name="genre[]" value="Romance">Romance  <br>
+    <input type="checkbox" name="genre[]" value="Sci-Fi">Sci-Fi
+    <input type="checkbox" name="genre[]" value="Short">Short
+    <input type="checkbox" name="genre[]" value="Thriller">Thriller
+    <input type="checkbox" name="genre[]" value="War">War
+    <input type="checkbox" name="genre[]" value="Western">Western  <br>
+    <input type="checkbox" name="genre[]" value="Other">Other <br><br><br>
+    
+    (Optional Fields): <br>
+    IMDB Rating: <input type="text" name="imdb" maxlength="3" size="3" value="<?php echo isset($_POST['imdb']) ? $_POST['imdb'] : '' ?>"><br>
+    Rotten Tomatoes Rating <input type="text" name="rotten" maxlength="3" size="3" value="<?php echo isset($_POST['rotten']) ? $_POST['rotten'] : '' ?>"><br>
+
+    Tickets Sold: <input type="text" name="tickets" value="<?php echo isset($_POST['tickets']) ? $_POST['tickets'] : '' ?>"><br>
+    Total Income: <input type="text" name="income" value="<?php echo isset($_POST['income']) ? $_POST['income'] : '' ?>"> <br><br>
+
     <input type="submit" value="Submit">
 </form>
 
@@ -22,20 +55,14 @@ function validationErrors() {
     $title = $_POST["title"];
     $rating = $_POST["rating"];
     $company = $_POST["company"];
-    // TODO: Need at least 1 actor
-    // TODO: Need at least 1 director
-    // TODO: Need at least 1 genre
-    return (empty($year) || empty($title) || empty($rating) || empty($company));
-}
-
-function fillOutFields() {
-    // TODO: Fill out fields with previously submitted values
+    $genre = $_POST['genre'];
+   
+    return (empty($year) || empty($title) || empty($rating) || empty($company) || empty($genre));
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (validationErrors()) {
-        fillOutFields();
-        print "Please fill out all fields";
+        print "You did not fill out all of the required fields, so your request was not submitted.";
         exit(1);
     }
     $db_connection = mysql_connect("localhost", "cs143", "");
@@ -65,36 +92,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sanitized_query = sprintf($query, $sanitized_name);
     $rs = mysql_query($sanitized_query, $db_connection);
 
-
-    // TODO: For every Actor entered, add an entry to MovieActor
-    // TODO: For every Director entered, add an entry to MovieDirector
-    // TODO: For every Genre entered, add an entry to MovieGenre
-
-    $actors = [];
-    $directors = []; // todo: store the director id's
-    $genres = []; // todo: store the genre strings
-
-    $query = "INSERT INTO MovieActor VALUES ";
-    foreach ($actors as $actor) {
-        $actorId = ""; // TODO!
-        $role = ""; // TODO!
-        $query .= "({$actorId}, {$id}, '{$role}'),";
-    }
-    $query = substr($query, 0, -1); // omits the last comma
-    $sanitized_name = mysql_real_escape_string($name, $db_connection);
-    $sanitized_query = sprintf($query, $sanitized_name);
-    $rs = mysql_query($sanitized_query, $db_connection);
-
-    $query = "INSERT INTO MovieDirector VALUES ";
-    foreach ($directors as $directorId) {
-        $query .= "({$directorId}, {$id}),";
-    }
-    $query = substr($query, 0, -1); // omits the last comma
-    $sanitized_name = mysql_real_escape_string($name, $db_connection);
-    $sanitized_query = sprintf($query, $sanitized_name);
-    $rs = mysql_query($sanitized_query, $db_connection);
-
-    $query = "INSERT INTO MovieGenre VALUES ";
+    $genres = $_POST['genre']; 
+        $query = "INSERT INTO MovieGenre VALUES ";
     foreach ($genres as $genre) {
         $query .= "({$id}, '{$genre}'),";
     }
@@ -103,7 +102,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sanitized_query = sprintf($query, $sanitized_name);
     $rs = mysql_query($sanitized_query, $db_connection);
 
+    // TODO: add the optional things as well!
+    $imdbRating = $_POST['imdb'];
+    $rotRating = $_POST['rotten'];
 
+    if (empty($imdbRating))
+        $imdbRating = NULL;
+    if (empty($rotRating))
+        $rotRating = NULL;
+    $query= "INSERT INTO MovieRating VALUES ({$id}, {$imdbRating}, {$rotRating})";
+    $sanitized_name = mysql_real_escape_string($name, $db_connection);
+    $sanitized_query = sprintf($query, $sanitized_name);
+    $rs = mysql_query($sanitized_query, $db_connection);    
+    
+    $tickets = $_POST['tickets'];
+    $sales = $_POST['income'];
+
+    if (empty($tickets))
+        $tickets = 0;
+    if (empty($sales))
+        $sales = 0;
+
+    $query = "INSERT INTO Sales VALUES ({$id}, {$tickets}, {$sales})";
+    $sanitized_name = mysql_real_escape_string($name, $db_connection);
+    $sanitized_query = sprintf($query, $sanitized_name);
+    $rs = mysql_query($sanitized_query, $db_connection);
 
     mysql_free_result($rs);
     mysql_close($db_connection);

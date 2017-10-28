@@ -188,6 +188,7 @@ echo $reviewsHtml;
 <br> <br>
 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
     <input type="text" id="name" name="name" placeholder="Name" size="20"> <br> <br>
+    <p>Your rating:</p>
     <select name="rating">
         <option value="1">1</option>
         <option value="2">2</option>
