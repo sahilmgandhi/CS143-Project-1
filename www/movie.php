@@ -21,6 +21,15 @@
     <!-- Custom jsAndCssS -->
     <link href="jsAndCss/dist/css/sb-admin-2.css" rel="stylesheet">
 
+     <!-- DataTables CSS -->
+    <link href="jsAndCss/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="jsAndCss/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+
+     <!-- Custom CSS -->
+    <link href="jsAndCss/dist/css/sb-admin-2.css" rel="stylesheet">
+
     <!-- Custom jsAndCssnts -->
     <link href="jsAndCss/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
@@ -28,7 +37,7 @@
 
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
-                <a class="navbar-brand" href="index.html">LMDb - Localhost Movie Database</a>
+                <a class="navbar-brand" href="index.php">LMDb - Localhost Movie Database</a>
             </div>
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
@@ -256,7 +265,12 @@ if ($directorErrorFlag){
 echo "<br><br>";
 ////////// Actors
 $actorsHtml = "";
+$evenOrOdd = "even";
 while ($row = mysql_fetch_row($actorrs)) {
+    if ($evenOrOdd == "even")
+        $evenOrOdd = "odd";
+    else
+        $evenOrOdd = "even";
     $aid = $row[1];
     $aname = $row[5] . ' ' . $row[4];
     $role = $row[2];
@@ -264,15 +278,21 @@ while ($row = mysql_fetch_row($actorrs)) {
     $actorsHtml .= "<td>{$role}</td></tr>";
 
 }
+
+echo "<div class=\"row\">";
 if (empty($actorsHtml)) {
     echo "<i>No known actors for this movie</i>";
 } else {
-    echo "<table border=1 cellspacing=1 cellpadding=2>\n";
-    echo "<tr align=center>";
-    $actorsHtml = "<th>Actor</th><th>Role</th>" . $actorsHtml;
+    echo "<div class=\"panel-body\">";
+    echo "<table width=\"100%\" class=\"tabel table-striped table-bordered table-hover\" id=\"ActorTable\">\n";
+    echo "<thead> <tr align=center>";
+    $actorsHtml = "<th>Actor</th><th>Role</th></tr> </thead><tbody>" . $actorsHtml;
     echo $actorsHtml;
+    echo "</tbody>";
     echo "</table><br>";
+    echo "</div>";
 }
+echo "</div>";
 ?>
 <h4>Add New Actor</h4>
 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
@@ -326,5 +346,29 @@ echo $reviewsHtml;
 </form>
 </div>
 
+<script src="jsAndCss/vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="jsAndCss/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="jsAndCss/vendor/metisMenu/metisMenu.min.js"></script>
+
+    <!-- DataTables JavaScript -->
+    <script src="jsAndCss/vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="jsAndCss/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="jsAndCss/vendor/datatables-responsive/dataTables.responsive.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="jsAndCss/dist/js/sb-admin-2.js"></script>
+
+    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+    <script>
+    $(document).ready(function() {
+        $('#ActorTable').DataTable({
+            responsive: true
+        });
+    });
+    </script>
 </body>
 </html>

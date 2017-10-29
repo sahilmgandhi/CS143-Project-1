@@ -29,7 +29,7 @@
 
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
-                <a class="navbar-brand" href="index.html">LMDb - Localhost Movie Database</a>
+                <a class="navbar-brand" href="index.php">LMDb - Localhost Movie Database</a>
             </div>
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
@@ -58,8 +58,24 @@
 </nav>
 
 <div id="page-wrapper">
-
-<h1> Create Movie </h1>
+    <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Create a new movie.</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+        <div class=row>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Create new movies!
+                        </div>
+                        <div class="panel-body">
+                            <p>Modify the form below to create a new movie. The first few fields are required, and the ratings/income fields are optional if you want to include that information.</p>
+                        </div>
+                        <div class="panel-footer">
+                        </div>
+                </div>
+                </div>
 
 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
     (Required Fields): <br>

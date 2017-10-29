@@ -29,7 +29,7 @@
 
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
-                <a class="navbar-brand" href="index.html">LMDb - Localhost Movie Database</a>
+                <a class="navbar-brand" href="index.php">LMDb - Localhost Movie Database</a>
             </div>
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
@@ -107,16 +107,19 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET["search"])) {
         $actorsHtml .= "<tr><td><a href=person.php?person_type=Actor&id={$aid}>{$aname}</a></td>\t";
 
     }
+    echo "<div class=\"row\">";
     if (empty($actorsHtml)) {
         echo "<i>No actors found</i>";
     } else {
-        echo "<table border=1 cellspacing=1 cellpadding=2>\n";
-        echo "<tr align=center>";
-        $actorsHtml = "<th>Actor</th>" . $actorsHtml;
+        echo "<div class=\"panel-body\">";
+        echo "<table width=\"100%\" class=\"tabel table-striped table-bordered table-hover\" id=\"ActorTable\">\n";
+        echo "<thead> <tr align=center>";
+        $actorsHtml = "<th>Actor</th> </thead><tbody>" . $actorsHtml;
         echo $actorsHtml;
-        echo "</table><br>";
+        echo "</tbody>";
+        echo "</table><br></div>";
     }
-
+    echo "</div>";
 
     $movieHtml = "";
     while ($row = mysql_fetch_row($moviers)) {
@@ -125,21 +128,51 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET["search"])) {
         $movieHtml .= "<tr><td><a href=movie.php?id={$mid}>{$title}</a></td>\t";
 
     }
+    echo "<div class=\"row\">";
     if (empty($movieHtml)) {
         echo "<i>No movies found</i>";
     } else {
-        echo "<table border=1 cellspacing=1 cellpadding=2>\n";
-        echo "<tr align=center>";
-        $movieHtml = "<th>Movie</th>" . $movieHtml;
+        echo "<div class=\"panel-body\">";
+        echo "<table width=\"100%\" class=\"tabel table-striped table-bordered table-hover\" id=\"MovieTable\">\n";
+        echo "<thead> <tr align=center>";
+        $movieHtml = "<th>Movie</th> </thead><tbody>" . $movieHtml;
         echo $movieHtml;
-        echo "</table><br>";
+        echo "</tbody></table><br></div>";
     }
-
+    echo "</div>";
     // Free the result and close the connection to the database
     mysql_free_result($rs);
     mysql_close($db_connection);
 }
 ?>
 </div>
+
+<script src="jsAndCss/vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="jsAndCss/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="jsAndCss/vendor/metisMenu/metisMenu.min.js"></script>
+
+    <!-- DataTables JavaScript -->
+    <script src="jsAndCss/vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="jsAndCss/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="jsAndCss/vendor/datatables-responsive/dataTables.responsive.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="jsAndCss/dist/js/sb-admin-2.js"></script>
+
+    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+    <script>
+    $(document).ready(function() {
+        $('#ActorTable').DataTable({
+            responsive: true
+        });
+        $('#MovieTable').DataTable({
+            responsive: true
+        });
+    });
+    </script>
 </body>
 </html>

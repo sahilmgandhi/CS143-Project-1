@@ -31,7 +31,7 @@
 
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
-                <a class="navbar-brand" href="index.html">LMDb - Localhost Movie Database</a>
+                <a class="navbar-brand" href="index.php">LMDb - Localhost Movie Database</a>
             </div>
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
@@ -62,12 +62,20 @@
 
 
      <div id="page-wrapper">
-            <h1> CS 143 Project 1B </h1>
-            <h3> By Sahil Gandhi and Vansh Gandhi </h3>
-            <h4> Welcome to the second part of project 1 for CS143. Take a look around to find out about some of the movies, actors
-                and directors that interest you! </h4>
-            <p> Some of the things that this webpage can do are: </p> <br>
-
+        <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">CS143 Project 1B by Sahil Gandhi and Vansh Gandhi</h1>
+                </div>
+            </div>
+        <div class="row">
+                <div class="col-lg-12">
+                    <div class="jumbotron">
+                        <h1>Welcome!</h1>
+                        <p>Take a look around to find out about some of the movies, actors and directors that interest you! </p>
+                        </p>
+                    </div>
+                </div>
+            </div>
      </div>
 </body>
 </html>

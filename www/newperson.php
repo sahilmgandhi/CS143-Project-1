@@ -29,7 +29,7 @@
 
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
-                <a class="navbar-brand" href="index.html">LMDb - Localhost Movie Database</a>
+                <a class="navbar-brand" href="index.php">LMDb - Localhost Movie Database</a>
             </div>
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
@@ -58,6 +58,24 @@
 </nav>
 
      <div id="page-wrapper">
+        <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Create a new person.</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+        <div class=row>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Create new actors or directors!
+                        </div>
+                        <div class="panel-body">
+                            <p>Modify the form below to create a new actor or director. If you are using Firefox, please use the proper format for the dates!</p>
+                        </div>
+                        <div class="panel-footer">
+                        </div>
+                </div>
+                </div>
 
 <h1> Create Person </h1>
 
