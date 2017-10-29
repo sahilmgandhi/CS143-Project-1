@@ -108,18 +108,11 @@ if (empty($id) || !$didFindPerson) {
     header("Location: notfound.php"); // Redirect to display page
 }
 
-echo "<div class=\"row\">";
-echo "<table width=\"100%\" class=\"tabel table-striped table-bordered table-hover\">\n";
-echo "<thead> <tr align=center> <th>Sex</th><th>Date of Birth</th><th>Date of Death</th> </thead> </tbody><tr>";
-
-$actorHtml = "";
 if ($_GET["person_type"] == "Actor") {
-    $actorHtml .= "<td>$sex</td>";
+    echo "<h4>Sex: $sex</h4>";
 }
-$death = empty($dod) || $dod == '0000-00-00' ? "Still Alive" : $dod;
-$actorHtml .= "<td>$dob</td><td>$death</td>";
-echo "$actorHtml";
-echo "</tr></tbody></table><br>"
+$death = empty($dod) || $dod == '0000-00-00' ? "<i>Present</i>" : $dod;
+echo "Alive from: $dob to $death<br>";
 ?>
 
 <?php
