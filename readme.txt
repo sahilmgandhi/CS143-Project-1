@@ -1,25 +1,26 @@
 # CS143_Project1
-CS 143 Project 1 Code: Internet Movie DataBase
+CS 143 Project 1 Code: Localhost Internet Movie DataBase
 
-Project design: We incrementally wrote the code for this project, starting with the create.sql and then load.sql, then the queries.sql. We then
-created the query.php file and then after thinking about constraints, we modified the create.sql file and created the violate.sql files.
-The work was split quite evenly between both of team members.
+Project design: 
 
-* Keep in mind for the create.sql and violate.sql, the "CHECK" statements do NOT work since mysql does not support the check statement*.
+We met all the criteria of the project, including having a nice UI design for the user to interact with, and even added features to 
+sort the outputted tables and search through them for better readability. We also implemented adding information about sales and 
+imdb/rotten tomatoes ratings for the movie which was not asked of from the spec, and have a 404 page to handle any bad redirects.
 
- In English a list of constraints the DB should satisfy:
+Project work split:
 
- 1) Movies must be made after the first ever recorded movie (1978)
- 2) Movie ids must be unique since we cant have more than 1 movie with the same id
- 3) Actor's date of birth must be less than the current date (what newborn is immediately an actor?)
- 4) Actor's date of death must be after their birth OR null if they aren't dead.
- 5) Actor id should be unique since no 2 actors are the same
- 6) Sales' movie Id should be unique since there should only be 1 tuple of sales per movie
- 7) Director's id should be unique since no 2 directors are the same
- 8) Directors date of birth must be less than the current date
- 9) Director's date of death must be after their birth or null if they aren't dead
- 10) Movie ratings id must be unique since there can only be one aggregate rating per movie
- 11) The movie rating's imdb score must be between 0 and 100
- 12) The movie rating's rotten tomatoes score must be between 0 and 100
- 13) The rating of a review must be between 0 and 5 as per the comment in the spec (ie. x out of 5).
- 14) A lot of different things such as ids, or roles or titles and years should not be allowed to be NULL since these are identifiers!
+Vansh Gandhi:
+Set up initial pages and connection to databases + populating some of the pages with the proper values. Worked on making the UI nicer.
+
+Sahil Gandhi:
+Populated the rest of the pages, did error testing, and worked on making the UI nicer as well.
+
+We collaborated by using Git for version control and properly planing out the workflow as well as the layouts so that we could
+finish the project in an efficient manner.
+
+One aspect we feel that you can improve on in a team setting for better collaboration is more communication within teammates, such as
+daily/bi-daily meetups to discuss progress and plans, some kind of version control or collaboration environment so that the code and 
+other ideas are shared amongst group members, AND the importance that each member must be able to do their own work for the project
+in order to get the grade that they deserve (ie no slackers and also no heroes who do all of the work). By incorporating all of these, 
+a group can become very productive and meet all of the goals that they set out to meet! We have experience working together on projects
+and using these tools, which is why we were able to meet the goals and requirements of the project!
