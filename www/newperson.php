@@ -26,86 +26,90 @@
     <link href="jsAndCss/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
 </head>
-
+<body>
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="index.php">LMDb - Localhost Movie Database</a>
-            </div>
-            <div class="navbar-default sidebar" role="navigation">
-                <div class="sidebar-nav navbar-collapse">
-                    <ul class="nav" id="side-menu">
-                        <li class="sidebar-search">
-                            <div class="input-group custom-search-form">
-                                <form method="GET" action="search.php">
-                                    <input type="text" class="form-control" id="search" name="search" placeholder="Search Movies/Actors" size="100" value="<?php echo $_GET["search"] ?>"/>
-                                </form>
-                            </span>
-                            </div>
-                        </li>
-                        <li>
-                            <a href="index.php"><i class="fa fa-dashboard fa-fw"></i> Main Menu</a>
-                        </li>
-                        <li>
-                            <a href="newperson.php"><i class="fa fa-user fa-fw"></i> Add new Actor/Director </a>
-                        </li>
-                        <li>
-                            <a href="newmovie.php"><i class="fa fa-film fa-fw"></i> Add new Movie</a>
-                        </li>
-                    </ul>
-                </div>
-                <!-- /.sidebar-collapse -->
-            </div>
+    <div class="navbar-header">
+        <a class="navbar-brand" href="index.php">LMDb - Localhost Movie Database</a>
+    </div>
+    <div class="navbar-default sidebar" role="navigation">
+        <div class="sidebar-nav navbar-collapse">
+            <ul class="nav" id="side-menu">
+                <li class="sidebar-search">
+                    <div class="input-group custom-search-form">
+                        <form method="GET" action="search.php">
+                            <input type="text" class="form-control" id="search" name="search"
+                                   placeholder="Search Movies/Actors" size="100" value="<?php echo $_GET["search"] ?>"/>
+                        </form>
+                    </div>
+                </li>
+                <li>
+                    <a href="index.php"><i class="fa fa-dashboard fa-fw"></i> Main Menu</a>
+                </li>
+                <li>
+                    <a href="newperson.php"><i class="fa fa-user fa-fw"></i> Add new Actor/Director </a>
+                </li>
+                <li>
+                    <a href="newmovie.php"><i class="fa fa-film fa-fw"></i> Add new Movie</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /.sidebar-collapse -->
+    </div>
 </nav>
 
-     <div id="page-wrapper">
-        <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">Create a new person.</h1>
-                </div>
-                <!-- /.col-lg-12 -->
-            </div>
-        <div class=row>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Create new actors or directors!
-                        </div>
-                        <div class="panel-body">
-                            <p>Modify the form below to create a new actor or director. If you are using Firefox, please use the proper format for the dates!</p>
-                        </div>
-                        <div class="panel-footer">
-                        </div>
-                </div>
-                </div>
-
-<div class="row">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-        Fill out the following details for the person:
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Create a new person.</h1>
         </div>
-    <div class="panel-body">
+        <!-- /.col-lg-12 -->
+    </div>
+    <div class=row>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Create new actors or directors!
+            </div>
+            <div class="panel-body">
+                <p>Modify the form below to create a new actor or director. If you are using Firefox, please use the
+                    proper format for the dates!</p>
+            </div>
+            <div class="panel-footer">
+            </div>
+        </div>
+    </div>
 
-<form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-    <input type="radio" id="actor" name="persontype" value="actor"> <label for="actor">Actor</label>
-    <input type="radio" id="director" name="persontype" value="director"> <label for="director">Director</label><br>
-    <br>
-    <input type="text" id="first" name="first" placeholder="First Name" size="20" maxlength="20"
-           value="<?php echo isset($_POST['first']) ? $_POST['first'] : '' ?>"> <br> <br>
-    <input type="text" id="last" name="last" placeholder="Last Name" size="20" maxlength="20"
-           value="<?php echo isset($_POST['last']) ? $_POST['last'] : '' ?>"> <br> <br>
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Fill out the following details for the person:
+            </div>
+            <div class="panel-body">
 
-    If using Firefox, please use the format (yyyy-mm-dd) for dates: <br>
-    <input type="date" id="dob" name="dob" placeholder="Birthday" size="20"
-           value="<?php echo isset($_POST['dob']) ? $_POST['dob'] : '' ?>"> <br> <br>
-    <input type="date" id="dod" name="dod" placeholder="Deathday" size="20"
-           value="<?php echo isset($_POST['dod']) ? $_POST['dod'] : '' ?>"> <br> <br>
-    <input type="radio" id="male" name="sex" value="male"> <label for="male">Male</label>
-    <input type="radio" id="female" name="sex" value="female"> <label for="female">Female</label> <br> <br>
-    <input type="submit" value="Submit">
-</form>
-</div>
+                <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                    <input type="radio" id="actor" name="persontype" value="actor"> <label for="actor">Actor</label>
+                    <input type="radio" id="director" name="persontype" value="director"> <label
+                            for="director">Director</label><br>
+                    <br>
+                    <input type="text" id="first" name="first" placeholder="First Name" size="20" maxlength="20"
+                           value="<?php echo isset($_POST['first']) ? $_POST['first'] : '' ?>"> <br> <br>
+                    <input type="text" id="last" name="last" placeholder="Last Name" size="20" maxlength="20"
+                           value="<?php echo isset($_POST['last']) ? $_POST['last'] : '' ?>"> <br> <br>
+
+                    If using Firefox, please use the format (yyyy-mm-dd) for dates: <br>
+                    <input type="date" id="dob" name="dob" placeholder="Birthday" size="20"
+                           value="<?php echo isset($_POST['dob']) ? $_POST['dob'] : '' ?>"> <br> <br>
+                    <input type="date" id="dod" name="dod" placeholder="Deathday" size="20"
+                           value="<?php echo isset($_POST['dod']) ? $_POST['dod'] : '' ?>"> <br> <br>
+                    <input type="radio" id="male" name="sex" value="male"> <label for="male">Male</label>
+                    <input type="radio" id="female" name="sex" value="female"> <label for="female">Female</label> <br>
+                    <br>
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 <?php
-
 function validationErrors()
 {
     $tablename = $_POST["persontype"];
@@ -135,7 +139,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         print "Please input the date of death correctly, or leave it blank if the person is still alive";
         exit(1);
     }
-    if ((!empty($_POST['dod']) && $_POST['dod'] != 0) && (strtotime($_POST['dod']) < strtotime($_POST['dob']))){
+    if ((!empty($_POST['dod']) && $_POST['dod'] != 0) && (strtotime($_POST['dod']) < strtotime($_POST['dob']))) {
         print "Please make sure that the date of death is AFTER the date of birth";
         exit(1);
     }
@@ -167,20 +171,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $query = "INSERT INTO {$tablename} VALUES ({$id}, '{$last}', '{$first}', '{$dob}', '{$dod}')"; // No sex
     }
-    print $query;
-    $sanitized_name = mysql_real_escape_string($name, $db_connection);
-    $sanitized_query = sprintf($query, $sanitized_name);
-    $rs = mysql_query($sanitized_query, $db_connection);
+
+    $rs = mysql_query($query, $db_connection);
     if (mysql_affected_rows() == 0)
         print "Could not insert into database due to connection issues, please try again";
 
     // Free the result and close the connection to the database
     mysql_free_result($rs);
     mysql_close($db_connection);
-    header("Location: person.php?person_type={$tablename}&id={$id}"); // Redirect to display page
-
+    print "
+    <script type=\"text/javascript\">
+        window.location.href='person.php?person_type={$tablename}&id={$id}';
+    </script>";
 }
 ?>
- </div>
 </body>
 </html>
