@@ -179,19 +179,26 @@ if ($ratings != FALSE)
 mysql_close($db_connection);
 ?>
 
-<h1> <?php echo "$title ($year)" ?> </h1> <br>
+<div class="row">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+         <h1> <?php echo "$title ($year)" ?> </h1>
+        </div>
+    <div class="panel-body">
+
 <?php echo $reviewstring ?> <br>
 
 <?php
-echo "Genres: ";
+echo "Genres:";
 $genreHtml = "";
 while ($row = mysql_fetch_row($genrers)) {
-    $genreHtml .= "<b>{$row[1]}  </b>";
+    $genreHtml .= " <b>{$row[1]}</b>,";
 }
 if (empty($genreHtml)) {
-    $genreHtml .= "<i>None</i>";
+    $genreHtml .= "<i>None</i>,";
 }
-echo $genreHtml;
+
+echo substr($genreHtml, 0, -1);
 ?>
 <br>
 <?php
@@ -344,6 +351,8 @@ echo $reviewsHtml;
     <input type="hidden" name="id" value="<?php echo $id; ?>"/>
     <input type="submit" id="newReview" name="newReview"> <br> <br>
 </form>
+</div>
+</div>
 </div>
 
 <script src="jsAndCss/vendor/jquery/jquery.min.js"></script>

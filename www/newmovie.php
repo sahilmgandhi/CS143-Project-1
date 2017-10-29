@@ -77,6 +77,12 @@
                 </div>
                 </div>
 
+<div class="row">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+        Fill out the following details:
+        </div>
+    <div class="panel-body">
 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
     (Required Fields): <br>
     <input type="text" id="title" name="title" placeholder="Movie Title" size="20" value="<?php echo isset($_POST['title']) ? $_POST['title'] : '' ?>"> <br> <br>
@@ -92,35 +98,36 @@
     </select> <br>
     <input type="text" id="company" name="company" placeholder="Production Company" size="50" value="<?php echo isset($_POST['company']) ? $_POST['company'] : '' ?>"> <br> <br>
     Genre: 
-    <input type="checkbox" name="genre[]" value="Action">Action
-    <input type="checkbox" name="genre[]" value="Adult">Adult
-    <input type="checkbox" name="genre[]" value="Adventure">Adventure
-    <input type="checkbox" name="genre[]" value="Comedy">Comedy  <br>
-    <input type="checkbox" name="genre[]" value="Crime">Crime
-    <input type="checkbox" name="genre[]" value="Documentary">Documentary
-    <input type="checkbox" name="genre[]" value="Drama">Drama
-    <input type="checkbox" name="genre[]" value="Family">Family  <br>
-    <input type="checkbox" name="genre[]" value="Horror">Horror
-    <input type="checkbox" name="genre[]" value="Musical">Musical
-    <input type="checkbox" name="genre[]" value="Mystery">Mystery
-    <input type="checkbox" name="genre[]" value="Romance">Romance  <br>
-    <input type="checkbox" name="genre[]" value="Sci-Fi">Sci-Fi
-    <input type="checkbox" name="genre[]" value="Short">Short
-    <input type="checkbox" name="genre[]" value="Thriller">Thriller
-    <input type="checkbox" name="genre[]" value="War">War
-    <input type="checkbox" name="genre[]" value="Western">Western  <br>
-    <input type="checkbox" name="genre[]" value="Other">Other <br><br><br>
+    <input type="checkbox" name="genre[]" value="Action"> Action
+    <input type="checkbox" name="genre[]" value="Adult"> Adult
+    <input type="checkbox" name="genre[]" value="Adventure"> Adventure
+    <input type="checkbox" name="genre[]" value="Comedy"> Comedy  
+    <input type="checkbox" name="genre[]" value="Crime"> Crime  <br>
+    <input type="checkbox" name="genre[]" value="Documentary"> Documentary
+    <input type="checkbox" name="genre[]" value="Drama"> Drama
+    <input type="checkbox" name="genre[]" value="Family"> Family  
+    <input type="checkbox" name="genre[]" value="Horror"> Horror
+    <input type="checkbox" name="genre[]" value="Musical"> Musical  <br>
+    <input type="checkbox" name="genre[]" value="Mystery"> Mystery
+    <input type="checkbox" name="genre[]" value="Romance"> Romance 
+    <input type="checkbox" name="genre[]" value="Sci- Fi">Sci-Fi
+    <input type="checkbox" name="genre[]" value="Short"> Short
+    <input type="checkbox" name="genre[]" value="Thriller"> Thriller
+    <input type="checkbox" name="genre[]" value="War"> War
+    <input type="checkbox" name="genre[]" value="Western"> Western
+    <input type="checkbox" name="genre[]" value="Other"> Other <br><br><br>
     
     (Optional Fields): <br>
-    IMDB Rating: <input type="text" name="imdb" maxlength="3" size="3" value="<?php echo isset($_POST['imdb']) ? $_POST['imdb'] : '' ?>"><br>
-    Rotten Tomatoes Rating <input type="text" name="rotten" maxlength="3" size="3" value="<?php echo isset($_POST['rotten']) ? $_POST['rotten'] : '' ?>"><br>
+    IMDB Rating (0-100): <input type="text" name="imdb" maxlength="3" size="3" value="<?php echo isset($_POST['imdb']) ? $_POST['imdb'] : '' ?>"><br>
+    Rotten Tomatoes Rating (0-100): <input type="text" name="rotten" maxlength="3" size="3" value="<?php echo isset($_POST['rotten']) ? $_POST['rotten'] : '' ?>"><br>
 
     Tickets Sold: <input type="text" name="tickets" value="<?php echo isset($_POST['tickets']) ? $_POST['tickets'] : '' ?>"><br>
     Total Income: <input type="text" name="income" value="<?php echo isset($_POST['income']) ? $_POST['income'] : '' ?>"> <br><br>
 
     <input type="submit" value="Submit">
 </form>
-
+</div>
+</div>
 <?php
 
 function validationErrors() {

@@ -77,7 +77,12 @@
                 </div>
                 </div>
 
-<h1> Create Person </h1>
+<div class="row">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+        Fill out the following details for the person
+        </div>
+    <div class="panel-body">
 
 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
     <input type="radio" id="actor" name="persontype" value="actor"> <label for="actor">Actor</label>
@@ -97,7 +102,8 @@
     <input type="radio" id="female" name="sex" value="female"> <label for="female">Female</label> <br> <br>
     <input type="submit" value="Submit">
 </form>
-
+</div>
+</div>
 <?php
 
 function validationErrors()
