@@ -68,11 +68,6 @@
                 and directors that interest you! </h4>
             <p> Some of the things that this webpage can do are: </p> <br>
 
-            <p>Add a new actor or director of your choice:</p> <br>
-            <p>Add a movie of your choice:</p> <br>
-
-            <p>Add an actor to a movie relation of your choice:</p> <br>
-            <p>Add a director to a movie relation of your choice:</p> <br>
      </div>
 </body>
 </html>
