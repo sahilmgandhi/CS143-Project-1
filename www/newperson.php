@@ -80,7 +80,7 @@
 <div class="row">
     <div class="panel panel-default">
         <div class="panel-heading">
-        Fill out the following details for the person
+        Fill out the following details for the person:
         </div>
     <div class="panel-body">
 

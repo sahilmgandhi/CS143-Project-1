@@ -80,7 +80,7 @@
 <div class="row">
     <div class="panel panel-default">
         <div class="panel-heading">
-        Fill out the following details:
+        Fill out the following details for the movie:
         </div>
     <div class="panel-body">
 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">

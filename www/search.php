@@ -60,7 +60,12 @@
      <div id="page-wrapper">
 
 
-<h1> Localhost Movie DataBase </h1>
+<div class="row">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h1> Localhost Movie DataBase </h1>
+        </div>
+    <div class="panel-body">
 
 <?php
 
@@ -111,6 +116,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET["search"])) {
     if (empty($actorsHtml)) {
         echo "<i>No actors found</i>";
     } else {
+        echo "Actors found:";
         echo "<div class=\"panel-body\">";
         echo "<table width=\"100%\" class=\"tabel table-striped table-bordered table-hover\" id=\"ActorTable\">\n";
         echo "<thead> <tr align=center>";
@@ -130,7 +136,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET["search"])) {
     }
     echo "<div class=\"row\">";
     if (empty($movieHtml)) {
-        echo "<i>No movies found</i>";
+        echo "<i> No movies found</i>";
     } else {
         echo "<div class=\"panel-body\">";
         echo "<table width=\"100%\" class=\"tabel table-striped table-bordered table-hover\" id=\"MovieTable\">\n";
@@ -145,6 +151,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET["search"])) {
     mysql_close($db_connection);
 }
 ?>
+</div>
+</div>
 </div>
 
 <script src="jsAndCss/vendor/jquery/jquery.min.js"></script>

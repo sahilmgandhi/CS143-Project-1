@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title> <?php echo $title ?> - LMDb </title>
+<title> MovieInfo - LMDb </title>
 <head>
 
     <meta charset="utf-8">

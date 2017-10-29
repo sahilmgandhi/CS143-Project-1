@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title> <?php echo $name ?> - LMDb </title>
+<title> <?php echo $_GET['person_type'] ?>Info - LMDb </title>
 <head>
 
     <meta charset="utf-8">
@@ -93,16 +93,33 @@ $moviers = mysql_query($sanitized_query, $db_connection);
 mysql_free_result($rs);
 mysql_close($db_connection);
 ?>
-<h1> <?php echo $name ?> </h1>
+
+<div class="row">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h1> <?php echo $name ?> </h1>
+        </div>
+    <div class="panel-body">
+
 <?php
+
+
 if (empty($id) || !$didFindPerson) {
     header("Location: notfound.php"); // Redirect to display page
 }
+
+echo "<div class=\"row\">";
+echo "<table width=\"100%\" class=\"tabel table-striped table-bordered table-hover\">\n";
+echo "<thead> <tr align=center> <th>Sex</th><th>Date of Birth</th><th>Date of Death</th> </thead> </tbody><tr>";
+
+$actorHtml = "";
 if ($_GET["person_type"] == "Actor") {
-    echo "<h3>Sex: $sex</h3>";
+    $actorHtml .= "<td>$sex</td>";
 }
-$death = empty($dod) || $dod == '0000-00-00' ? "<i>Present</i>" : $dod;
-echo "Alive from: $dob-$death<br>";
+$death = empty($dod) || $dod == '0000-00-00' ? "Still Alive" : $dod;
+$actorHtml .= "<td>$dob</td><td>$death</td>";
+echo "$actorHtml";
+echo "</tr></tbody></table><br>"
 ?>
 
 <?php
@@ -131,6 +148,9 @@ echo "</div>";
 
 
 ?>
+
+</div>
+</div>
 </div>
 
 <script src="jsAndCss/vendor/jquery/jquery.min.js"></script>
