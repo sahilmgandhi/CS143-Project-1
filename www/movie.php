@@ -14,29 +14,48 @@ if (!$db_selected) {
     exit(1);
 }
 
+$actorErrorFlag = false;
+$actorErrorMsg = "";
+$directorErrorFlag = false;
+$directorErrorMsg = "";
+
 $id = (int)$_GET["id"];
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = (int)$_POST["id"]; // We sent the id as a POST parameter in this case
     if (!empty($_POST["newActor"])) {
         $role = $_POST["role"];
-        $first = split(" ", $_POST["name"])[0];
-        $last = split(" ", $_POST["name"])[1];
-        $query = "INSERT INTO MovieActor SELECT $id, a.id, '$role' FROM Actor AS a WHERE a.first='$first' AND a.last='$last'";
-        $newActorRs = mysql_query($query, $db_connection);
-        // TODO: Check the result of new actor rs (invalid name?)
+        if (empty($role)){
+            $actorErrorMsg = "Please make sure that the role is not empty";
+            $actorErrorFlag = TRUE;
+        }
+        if (!$actorErrorFlag){
+            $first = split(" ", $_POST["name"])[0];
+            $last = split(" ", $_POST["name"])[1];
+            $query = "INSERT INTO MovieActor SELECT $id, a.id, '$role' FROM Actor AS a WHERE a.first='$first' AND a.last='$last'";
+            $newActorRs = mysql_query($query, $db_connection);
+            if (mysql_affected_rows() == 0){
+                $actorErrorMsg =  "Unable to find this actor. Please check if you typed the name correctly, or go <a href=newperson.php>here</a> to add the Actor.";
+                $actorErrorFlag = TRUE;
+            }    
+        }
     } else if (!empty($_POST["newDirector"])) {
         $first = split(" ", $_POST["name"])[0];
         $last = split(" ", $_POST["name"])[1];
         $query = "INSERT INTO MovieDirector SELECT $id, d.id FROM Director AS d WHERE d.first='$first' AND d.last='$last'";
         $newDirectorRs = mysql_query($query, $db_connection);
+        if (mysql_affected_rows() == 0){
+            $directorErrorMsg = "Unable to find this Director. Please check if you typed the name correctly, or go <a href=newperson.php>here</a> to add the Actor.";
+            $directorErrorFlag = TRUE;
+        }
     } else if (!empty($_POST["newReview"])) {
         $name = $_POST["name"];
+        if (empty($name)){
+            $name = "Anonymous";
+        }
         $rating = (int)$_POST["rating"];
         $comment = $_POST["comment"];
         $query = "INSERT INTO Review SELECT '$name', NOW(), $id, $rating, '$comment'";
-        echo $query;
         $reviewRs = mysql_query($query, $db_connection);
-        // todo check if result of reviewrs is valid
     }
 }
 
@@ -53,16 +72,12 @@ $year = $row[2];
 $rating = $row[3];
 $company = $row[4];
 mysql_free_result($rs);
-// TODO: Check the result of $rs (invalid id or something)
-
 
 $actorquery = "SELECT * FROM MovieActor AS ma, Actor AS a WHERE ma.mid={$id} AND a.id = ma.aid";
 $actorrs = mysql_query($actorquery, $db_connection);
 
-
 $directorquery = "SELECT * FROM MovieDirector AS md, Director AS d WHERE md.mid={$id} AND d.id=md.did";
 $directorrs = mysql_query($directorquery, $db_connection);
-
 
 $genrequery = "SELECT * FROM MovieGenre WHERE mid={$id}";
 $genrers = mysql_query($genrequery, $db_connection);
@@ -171,12 +186,19 @@ else
 
 <h4>Add New Director</h4>
 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-    <input type="text" id="name" name="name" placeholder="Director Full Name" size="20">
+    <input type="text" id="name" name="name" placeholder="Director Full Name" size="20 value="<?php echo isset($_POST['name']) ? $_POST['name'] : '' ?>"">
     <input type="hidden" name="id" value="<?php echo $id; ?>"/>
     <input type="submit" id="newDirector" name="newDirector"> <br> <br>
 </form>
 
 <?php
+if ($directorErrorFlag){
+    echo $directorErrorMsg;
+}
+?>
+
+<?php
+
 echo "<br><br>";
 ////////// Actors
 $actorsHtml = "";
@@ -200,11 +222,17 @@ echo "</table><br>";
 ?>
 <h4>Add New Actor</h4>
 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-    <input type="text" id="name" name="name" placeholder="Actor Full Name" size="20">
-    <input type="text" id="role" name="role" placeholder="Actor Role" size="50">
+    <input type="text" id="name" name="name" placeholder="Actor Full Name" size="20" value="<?php echo isset($_POST['name']) ? $_POST['name'] : '' ?>">
+    <input type="text" id="role" name="role" placeholder="Actor Role" size="50" maxlength="50" value="<?php echo isset($_POST['role']) ? $_POST['role'] : '' ?>">
     <input type="hidden" name="id" value="<?php echo $id; ?>"/>
     <input type="submit" id="newActor" name="newActor"> <br> <br>
 </form>
+
+<?php
+if ($actorErrorFlag){
+    echo $actorErrorMsg;
+}
+?>
 
 <?php
 echo "<h2>Reviews</h2>";
@@ -215,7 +243,7 @@ while ($row = mysql_fetch_row($reviewsrs)) {
     $rating = $row[3];
     $comment = $row[4];
 
-    $reviewsHtml .= "<b>{$name}</b> — <i>{$rating}/5 Stars<br>Posted at {$time}</i><br>{$comment}<br><br>";
+    $reviewsHtml .= "<b>{$name}</b> - <i>{$rating}/5 Stars<br>Posted at {$time}</i><br>{$comment}<br><br>";
 }
 
 if (empty($reviewsHtml)) {
@@ -228,7 +256,7 @@ echo $reviewsHtml;
 
 <br> <br>
 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-    <input type="text" id="name" name="name" placeholder="Name" size="20"> <br> <br>
+    <input type="text" id="name" name="name" placeholder="Name" size="20" maxlength="20" value="<?php echo isset($_POST['name']) ? $_POST['name'] : '' ?>"> <br> <br>
     <p>Your rating:</p>
     <select name="rating">
         <option value="1">1</option>
@@ -237,7 +265,7 @@ echo $reviewsHtml;
         <option value="4">4</option>
         <option value="5">5</option>
     </select> <br>
-    <input type="text" id="comment" name="comment" placeholder="Comment" size="100"> <br> <br>
+    <input type="text" id="comment" name="comment" placeholder="Review/Comment" size="100" maxlength="500" value="<?php echo isset($_POST['comment']) ? $_POST['comment'] : '' ?>"> <br> <br>
     <input type="hidden" name="id" value="<?php echo $id; ?>"/>
     <input type="submit" id="newReview" name="newReview"> <br> <br>
 </form>

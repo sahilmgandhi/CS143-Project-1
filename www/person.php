@@ -25,7 +25,6 @@ $hasSexField = $_GET["person_type"] == "Actor" ? 1 : 0;
 $sex = $actorrow[3];
 $dob = $actorrow[3 + $hasSexField];
 $dod = $actorrow[4 + $hasSexField];
-// TODO: Check the result of $rs (invalid id or something)
 
 $query = "SELECT * FROM MovieActor AS ma, Movie AS m WHERE ma.aid={$id} AND m.id=ma.mid";
 $sanitized_name = mysql_real_escape_string($name, $db_connection);

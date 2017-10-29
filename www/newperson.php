@@ -12,9 +12,9 @@
     <input type="radio" id="actor" name="persontype" value="actor"> <label for="actor">Actor</label>
     <input type="radio" id="director" name="persontype" value="director"> <label for="director">Director</label><br>
     <br>
-    <input type="text" id="first" name="first" placeholder="First Name" size="20"
+    <input type="text" id="first" name="first" placeholder="First Name" size="20" maxlength="20"
            value="<?php echo isset($_POST['first']) ? $_POST['first'] : '' ?>"> <br> <br>
-    <input type="text" id="last" name="last" placeholder="Last Name" size="20"
+    <input type="text" id="last" name="last" placeholder="Last Name" size="20" maxlength="20"
            value="<?php echo isset($_POST['last']) ? $_POST['last'] : '' ?>"> <br> <br>
 
     If using Firefox, please use the format (yyyy-mm-dd) for dates: <br>
@@ -50,12 +50,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         print "Please fill out all fields";
         exit(1);
     }
-    if (!validateDate($_POST['dob'])) {
-        print "Please input the date of birth correctly";
+    if (!validateDate($_POST['dob']) || strtotime($_POST['dob']) > time()) {
+        print "Please input the date of birth correctly and less than today's date!";
         exit(1);
     }
-    if (!empty($_POST['dod']) && !validateDate($_POST['dod']) || $_POST['dod'] == 0) {
+    if ((!empty($_POST['dod']) && !validateDate($_POST['dod'])) || (!empty($_POST['dod']) && $_POST['dod'] == 0)) {
         print "Please input the date of death correctly, or leave it blank if the person is still alive";
+        exit(1);
+    }
+    if ((!empty($_POST['dod']) && $_POST['dod'] != 0) && (strtotime($_POST['dod']) < strtotime($_POST['dob']))){
+        print "Please make sure that the date of death is AFTER the date of birth";
         exit(1);
     }
     $db_connection = mysql_connect("localhost", "cs143", "");
@@ -85,14 +89,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $query = "INSERT INTO {$tablename} VALUES ({$id}, '{$last}', '{$first}', '{$sex}', '{$dob}', '{$dod}')";
     } else {
         $query = "INSERT INTO {$tablename} VALUES ({$id}, '{$last}', '{$first}', '{$dob}', '{$dod}')"; // No sex
-        // TODO: Don't show sex field if user selects director radio button?
     }
     print $query;
     $sanitized_name = mysql_real_escape_string($name, $db_connection);
     $sanitized_query = sprintf($query, $sanitized_name);
     $rs = mysql_query($sanitized_query, $db_connection);
-
-    // TODO: Check the result of $rs
+    if (mysql_affected_rows() == 0)
+        print "Could not insert into database due to connection issues, please try again";
 
     // Free the result and close the connection to the database
     mysql_free_result($rs);

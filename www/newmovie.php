@@ -113,6 +113,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $imdbRating = NULL;
     if (empty($rotRating) || $rotRating < 0)
         $rotRating = NULL;
+    
     $query= "INSERT INTO MovieRating VALUES ({$id}, {$imdbRating}, {$rotRating})";
     $sanitized_name = mysql_real_escape_string($name, $db_connection);
     $sanitized_query = sprintf($query, $sanitized_name);
