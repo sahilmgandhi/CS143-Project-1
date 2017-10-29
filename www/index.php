@@ -38,11 +38,9 @@
                     <ul class="nav" id="side-menu">
                         <li class="sidebar-search">
                             <div class="input-group custom-search-form">
-                                <input type="text" class="form-control" placeholder="Search for movies or actors" name="search">
-                                <span class="input-group-btn">
-                                <button class="btn btn-default" type="submit" action="search.php">
-                                    <i class="fa fa-search"></i>
-                                </button>
+                                <form method="GET" action="search.php">
+                                    <input type="text" class="form-control" id="search" name="search" placeholder="Search Movies/Actors" size="100" value="<?php echo $_GET["search"] ?>"/>
+                                </form>
                             </span>
                             </div>
                             <!-- /input-group -->
@@ -69,13 +67,6 @@
             <h4> Welcome to the second part of project 1 for CS143. Take a look around to find out about some of the movies, actors
                 and directors that interest you! </h4>
             <p> Some of the things that this webpage can do are: </p> <br>
-
-            <!-- TODO: Format this page better, add links to the different other php pages and also add the other things that this page can support -->
-            <p>Find a movie of your choice or actor/actress of your choice: </p> <br>
-            <form method="GET" action="search.php">
-                <input type="text" id="search" name="search" placeholder="Search" size="100" value="<?php echo $_GET["search"] ?>"/>
-            </form>
-
 
             <p>Add a new actor or director of your choice:</p> <br>
             <p>Add a movie of your choice:</p> <br>
