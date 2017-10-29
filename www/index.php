@@ -11,7 +11,7 @@
 
 <!-- TODO: Format this page better, add links to the different other php pages and also add the other things that this page can support -->
 <p>Find a movie of your choice or actor/actress of your choice: </p> <br>
-<form method="GET" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+<form method="GET" action="search.php">
     <input type="text" id="search" name="search" placeholder="Search" size="100" value="<?php echo $_GET["search"] ?>"/>
 </form>
 

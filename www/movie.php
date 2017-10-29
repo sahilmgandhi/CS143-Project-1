@@ -41,10 +41,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else if (!empty($_POST["newDirector"])) {
         $first = split(" ", $_POST["name"])[0];
         $last = split(" ", $_POST["name"])[1];
-        $query = "INSERT INTO MovieDirector SELECT $id, d.id FROM Director AS d WHERE d.first='$first' AND d.last='$last'";
+        $query = "INSERT INTO MovieDirector SELECT $id, d.id FROM Director AS d WHERE d.first='$first' AND d.last='$last' AND ($id, d.id) NOT IN (SELECT * FROM MovieDirector)";
         $newDirectorRs = mysql_query($query, $db_connection);
         if (mysql_affected_rows() == 0){
-            $directorErrorMsg = "Unable to find this Director. Please check if you typed the name correctly, or go <a href=newperson.php>here</a> to add the Actor.";
+            $directorErrorMsg = "Unable to find this Director, or director already added to movie. Please check if you typed the name correctly, or go <a href=newperson.php>here</a> to add the Director.";
             $directorErrorFlag = TRUE;
         }
     } else if (!empty($_POST["newReview"])) {
@@ -186,7 +186,7 @@ else
 
 <h4>Add New Director</h4>
 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-    <input type="text" id="name" name="name" placeholder="Director Full Name" size="20 value="<?php echo isset($_POST['name']) ? $_POST['name'] : '' ?>"">
+    <input type="text" id="name" name="name" placeholder="Director Full Name" size="20 value="<?php echo isset($_POST['name']) && $directorErrorFlag ? $_POST['name'] : '' ?>"">
     <input type="hidden" name="id" value="<?php echo $id; ?>"/>
     <input type="submit" id="newDirector" name="newDirector"> <br> <br>
 </form>
@@ -202,8 +202,6 @@ if ($directorErrorFlag){
 echo "<br><br>";
 ////////// Actors
 $actorsHtml = "";
-echo "<table border=1 cellspacing=1 cellpadding=2>\n";
-echo "<tr align=center>";
 while ($row = mysql_fetch_row($actorrs)) {
     $aid = $row[1];
     $aname = $row[5] . ' ' . $row[4];
@@ -213,17 +211,19 @@ while ($row = mysql_fetch_row($actorrs)) {
 
 }
 if (empty($actorsHtml)) {
-    $actorsHtml = "<i>No known actors for this movie</i>";
+    echo "<i>No known actors for this movie</i>";
 } else {
+    echo "<table border=1 cellspacing=1 cellpadding=2>\n";
+    echo "<tr align=center>";
     $actorsHtml = "<th>Actor</th><th>Role</th>" . $actorsHtml;
+    echo $actorsHtml;
+    echo "</table><br>";
 }
-echo $actorsHtml;
-echo "</table><br>";
 ?>
 <h4>Add New Actor</h4>
 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-    <input type="text" id="name" name="name" placeholder="Actor Full Name" size="20" value="<?php echo isset($_POST['name']) ? $_POST['name'] : '' ?>">
-    <input type="text" id="role" name="role" placeholder="Actor Role" size="50" maxlength="50" value="<?php echo isset($_POST['role']) ? $_POST['role'] : '' ?>">
+    <input type="text" id="name" name="name" placeholder="Actor Full Name" size="20" value="<?php echo isset($_POST['name']) && $actorErrorFlag ? $_POST['name'] : '' ?>">
+    <input type="text" id="role" name="role" placeholder="Actor Role" size="50" maxlength="50" value="<?php echo isset($_POST['role']) && $actorErrorFlag ? $_POST['role'] : '' ?>">
     <input type="hidden" name="id" value="<?php echo $id; ?>"/>
     <input type="submit" id="newActor" name="newActor"> <br> <br>
 </form>
@@ -255,8 +255,9 @@ echo $reviewsHtml;
 ?>
 
 <br> <br>
+<h3>Leave a Review:</h3>
 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-    <input type="text" id="name" name="name" placeholder="Name" size="20" maxlength="20" value="<?php echo isset($_POST['name']) ? $_POST['name'] : '' ?>"> <br> <br>
+    <input type="text" id="name" name="name" placeholder="Name" size="20" maxlength="20"> <br>
     <p>Your rating:</p>
     <select name="rating">
         <option value="1">1</option>
@@ -265,7 +266,7 @@ echo $reviewsHtml;
         <option value="4">4</option>
         <option value="5">5</option>
     </select> <br>
-    <input type="text" id="comment" name="comment" placeholder="Review/Comment" size="100" maxlength="500" value="<?php echo isset($_POST['comment']) ? $_POST['comment'] : '' ?>"> <br> <br>
+    <input type="text" id="comment" name="comment" placeholder="Review/Comment" size="100" maxlength="500" > <br> <br>
     <input type="hidden" name="id" value="<?php echo $id; ?>"/>
     <input type="submit" id="newReview" name="newReview"> <br> <br>
 </form>
